@@ -1,0 +1,45 @@
+This plugin allows you to process incoming images. Resize, crop and add drop
+shadows. It also includes a helper class that when passed the image input and 
+output, plus an array of parameters, will automatically perform all effects and 
+return a saved image object.
+
+Copyright (C) 2007 Gnat Solutions, Inc Nathanael D. Noblet <nathanael@gnat.ca>
+
+Taken from the original drop shadow, crop and resize classes written by 
+Andrew Collington
+
+*Note* Not all of this information is accurate/useful since turned into a symfony 
+plugin, but is included for completeness.
+
+ Description
+
+ This class allows for easy creation of images with a drop shadow effect.
+ Images can be read from a file or passed as a string (as you might take
+ the images from a database), and they can also be resized for easy
+ creation of thumbnails.  You can also change the background colour of
+ the image and generate the correct colour through the shadow.
+
+ Requirements
+
+ PHP 4.1.0+, GD 2.0.1+
+
+ Shadow images
+
+ I found that the best way to create a drop shadow was to first create
+ the shadow in an art program, and then split it up into 8 seperate
+ pieces; top left corner, top line, top right corner, left side, right
+ side, bottom left corner, bottom line, and bottom right corner.
+
+ If you don't like the spacing of the drop shadow, then you could easily
+ create your own drop shadows and over-write the files supplied.  The
+ different sizes of the drop-shadow images should be automatically taken
+ into consideration.  If you create your own shadows then you must save
+ them as PNG-24 (24-bit), as that level of alpha channels is required.
+
+ If no drop-shadow images can be located (or it cannot load up all of the
+ images) then it will still save the image (resized if you told it to be),
+ just without the drop-shadow effect.
+
+
+ Andrew Collington, 2003
+ php@amnuts.com, http://php.amnuts.com/
