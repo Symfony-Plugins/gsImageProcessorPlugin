@@ -1,45 +1,86 @@
-This plugin allows you to process incoming images. Resize, crop and add drop
-shadows. It also includes a helper class that when passed the image input and 
-output, plus an array of parameters, will automatically perform all effects and 
-return a saved image object.
+General Options
+===============
 
-Copyright (C) 2007 Gnat Solutions, Inc Nathanael D. Noblet <nathanael@gnat.ca>
+If save: is set, the image will be saved after processing and before returning to the caller. The following options can be set
 
-Taken from the original drop shadow, crop and resize classes written by 
-Andrew Collington
+Save
+----
 
-*Note* Not all of this information is accurate/useful since turned into a symfony 
-plugin, but is included for completeness.
+    save:
+      type:         string (optionally force the image
+      transparent:  [ R,G,B ] or 'FFAAFF' (sets the transparent color)
 
- Description
+Create
+------
+    create:
+      depth:        8 | 32 (bit depth of created image, basically imagecreate vs imagecreatetruecolour)
+      width:        integer
+      height:       integer
+      bgcolor:      [ R,G,B ] or FFAAFF
+      transparent:  boolean                 ( not applied unless bgcolor is set ) 
+      opacity:      integer (default 127)   ( not applied unless bgcolor is set )
 
- This class allows for easy creation of images with a drop shadow effect.
- Images can be read from a file or passed as a string (as you might take
- the images from a database), and they can also be resized for easy
- creation of thumbnails.  You can also change the background colour of
- the image and generate the correct colour through the shadow.
+Processors
+==========
 
- Requirements
+Border
+-----
+    border:
+      width:        integer  - default is 10 px
+      color:        [ R,G,B ] or FFAAFF
+      clone:        boolean
 
- PHP 4.1.0+, GD 2.0.1+
+Colorize
+--------
+    colorize:
+      color:        [ R,G,B ] or FFAAFF
+      clone:        boolean
 
- Shadow images
+Crop
+----
+    crop:
+      width:        integer (required)
+      height:       integer (required)
 
- I found that the best way to create a drop shadow was to first create
- the shadow in an art program, and then split it up into 8 seperate
- pieces; top left corner, top line, top right corner, left side, right
- side, bottom left corner, bottom line, and bottom right corner.
+Resize
+------
+    resize: 
+      crop:         boolean (optional) - crops the image to the final size after resizing to width  
+      strict:       boolean (optional) - forces the width/heights to be *exact* to specified dimensions
+      width:        integer (required)
+      height:       integer (optional - required with strict)
+  
+Rotation
+--------
+    rotate:
+      degrees:      integer
+      background:   [ R,G,B ] or FFAAFF
+      clone:        boolean
 
- If you don't like the spacing of the drop shadow, then you could easily
- create your own drop shadows and over-write the files supplied.  The
- different sizes of the drop-shadow images should be automatically taken
- into consideration.  If you create your own shadows then you must save
- them as PNG-24 (24-bit), as that level of alpha channels is required.
+Drop Shadow
+-----------
+    shadow:
+      color:   [ R,G,B ] or 'FFAAFF' (default 000000)
+      path:   /full/path/to/dropshadow/images.png
 
- If no drop-shadow images can be located (or it cannot load up all of the
- images) then it will still save the image (resized if you told it to be),
- just without the drop-shadow effect.
+Text Overlay
+------------
+Watermark
+---------
 
+Processing Order
+================
+The effects and options are currently applied in the following order assuming all 
+effects are requested.
 
- Andrew Collington, 2003
- php@amnuts.com, http://php.amnuts.com/
+*    Create
+*    Resize
+*    Crop
+*    Colorize
+*    Border
+*    Drop Shadow
+*    Rotate
+*    Watermark
+*    TextOverlay
+*    Save
+
