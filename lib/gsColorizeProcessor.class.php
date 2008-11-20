@@ -9,40 +9,30 @@
  * @author Nathanael D. Noblet <nathanael@gnat.ca>
  * @license GPL Version 2
  * @description : colourizes photos.
- * @param $colour - array of RBG values, from -255 to +255 where 0 == no change
+ * @param $color - array of RBG values, from -255 to +255 where 0 == no change
                    to get these numbers, use photoshop, grayscale your image
                    duplicate onto a new layer & colourize as you wish. Use
                    window -> historgram and grab the differences in medians of
                    each of the RGB channels.
  */
 
-class gsColorizeProcessor 
+class gsColorizeProcessor
 {
-    static public function colourize(&$img,$colour = null,$ret_new=false)
+    static public function colourize(&$input_img,$params = array()) //$color = null,$ret_new=false)
     {
-        if($colour == null)
+        $img = (isset($params['clone'])) ? new gdImage($input_img->getData()): $input_img;
+
+        if (!isset($params['color']))
             throw new sfException('No Color provided to colourize with!');
 
-        if(!is_array($colour))
-            $colour = gsImageHelper::HTMLHexToBinArray($colour);
+        $color = (!is_array($params['color'])) ? gsImageHelper::HTMLHexToBinArray($color): $params['color'];
 
-        if(count($colour) != 3)
+        if(count($color) != 3)
             throw new sfException('Wrong parameter count for colourization!');
 
-        if($ret_new)
-        {
-            $tmp = new gdImage();
-            $tmp->setData($img->getData());
-            imagefilter($tmp->getData(), IMG_FILTER_GRAYSCALE);
-            imagefilter($tmp->getData(), IMG_FILTER_COLORIZE, $colour[0], $colour[1], $colour[2]);
-            return $tmp;
-        }
-        else
-        {
-            imagefilter($img->getData(), IMG_FILTER_GRAYSCALE);
-            imagefilter($img->getData(), IMG_FILTER_COLORIZE, $colour[0], $colour[1], $colour[2]);
+        imagefilter($tmp->getData(), IMG_FILTER_GRAYSCALE);
+        imagefilter($tmp->getData(), IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
 
-            return $img;
-        }
+        return $img;
     }
 }

@@ -225,12 +225,13 @@ class gdImage
             $ext = 'png';
         }
 
-        if ($ext == 'png')
-            $this->_is_saved = $func($this->_img, $filename);
         if ($ext == 'jpeg')
-            $this->_is_saved= @$func($this->_img, $filename, $quality);
-
-        if (!$this->_is_saved) {
+            $this->_is_saved= $func($this->_img, $filename, $quality);
+        else
+            $this->_is_saved = $func($this->_img, $filename);
+        
+        if (!$this->_is_saved) 
+        {
             $err = error_get_last();
         	throw new sfException('Unable to save image to filesystem. '.$err['message']);
         }
