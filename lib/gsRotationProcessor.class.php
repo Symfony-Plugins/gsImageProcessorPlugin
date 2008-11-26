@@ -28,8 +28,10 @@ class gsRotationProcessor
             $background = !is_array($background) ? gsImageHelper::HTMLHexToBinArray($background): $background;
             $background = @imagecolorallocate($img->getData(),$background[0],$background[1],$background[2]);
         }
+        else
+            $background = @imagecolorallocate($img->getData(),255,255,255);
 
-        imagerotate($img->getData(), $params['degree'],$background,isset($params['ignore_transparent'])?$params['ignore_transparent']:null);
+        $img->setData(imagerotate($img->getData(), $params['degree'], $background, isset($params['ignore_transparent'])?$params['ignore_transparent']:null));
 
         return $img;
     }

@@ -199,7 +199,7 @@ class ImageProcessorHelper
          *   clone: false
          */
         if( isset($params['rotate']) )
-            gsRotationProcessor::rotate($img, $params);
+           $img = gsRotationProcessor::rotate($img, $params['rotate']);
 
         /*
          * watermark:

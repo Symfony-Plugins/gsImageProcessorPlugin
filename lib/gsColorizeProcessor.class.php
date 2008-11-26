@@ -18,7 +18,7 @@
 
 class gsColorizeProcessor
 {
-    static public function colourize(&$input_img,$params = array()) //$color = null,$ret_new=false)
+    static public function colorize(&$input_img,$params = array()) //$color = null,$ret_new=false)
     {
         $img = (isset($params['clone'])) ? new gdImage($input_img->getData()): $input_img;
 
@@ -30,8 +30,8 @@ class gsColorizeProcessor
         if(count($color) != 3)
             throw new sfException('Wrong parameter count for colourization!');
 
-        imagefilter($tmp->getData(), IMG_FILTER_GRAYSCALE);
-        imagefilter($tmp->getData(), IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
+        imagefilter($img->getData(), IMG_FILTER_GRAYSCALE);
+        imagefilter($img->getData(), IMG_FILTER_COLORIZE, $color[0], $color[1], $color[2]);
 
         return $img;
     }
